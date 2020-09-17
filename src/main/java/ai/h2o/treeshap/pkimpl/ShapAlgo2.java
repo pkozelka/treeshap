@@ -42,7 +42,7 @@ public class ShapAlgo2 {
         this.x = x;
         this.phi = new double[x.length];
         Arrays.fill(phi, -0.0);
- }
+    }
 
     private void recurse(PkNode j, List<PathElement> m, double pz, double po, Integer pi) {
         if (DEBUG) System.out.printf("%srecurse(DC=%s, P0f=%f, P1f=%f, PFi=%d)%n", indent, j.dataCount, pz, po, pi);
@@ -66,12 +66,12 @@ public class ShapAlgo2 {
                 final PathElement mk = m.get(k);
                 iz = mk.zeroFraction;
                 io = mk.oneFraction;
-                m = unwind(m, k);
+                m = unwindTracked(m, k);
             }
             final String indentBackup = indent;
             indent += "    ";
-            recurse(h, m, iz * h.dataCount/j.dataCount, io, j.splitFeatureIndex);
-            recurse(c, m, iz * c.dataCount/j.dataCount, 0, j.splitFeatureIndex);
+            recurse(h, m, iz * h.dataCount / j.dataCount, io, j.splitFeatureIndex);
+            recurse(c, m, iz * c.dataCount / j.dataCount, 0, j.splitFeatureIndex);
             indent = indentBackup;
         }
     }
@@ -101,7 +101,7 @@ public class ShapAlgo2 {
         final int sz = m.size(); // use "sz" rather than "l" which is optically too similar to "1" (one)
         // distribute weights; note that the iteration works with "old" sz
         for (int i = sz - 2; i >= 0; i--) { // <-- [bugfix1] ... partly reverted, by assigning sz *after* new element is added
-            final PathElement mi1 = m.get(i+1);
+            final PathElement mi1 = m.get(i + 1);
             final PathElement mi = m.get(i);
 
             final int ii = i + 1; // this would be the index in one-based array
@@ -109,7 +109,7 @@ public class ShapAlgo2 {
             final double d = (double) ii / (double) sz;
             mi1.weight = mi1.weight + po * mi.weight * d;
 
-            final double dd =(double) (sz - ii) / (double) sz;
+            final double dd = (double) (sz - ii) / (double) sz;
             mi.weight = mi.weight * (pz * dd);
         }
         if (DEBUG) System.out.println(m);
@@ -136,7 +136,7 @@ public class ShapAlgo2 {
             if (mi.oneFraction != 0.0) {
                 final double t = mj.weight;
                 mj.weight = n * sz / (jj * mi.oneFraction);
-                final double dd =(double) (sz - jj) / (double) sz;
+                final double dd = (double) (sz - jj) / (double) sz;
                 n = t - mj.weight * mi.zeroFraction * dd;
             } else {
                 final double d = (double) (sz - jj);
@@ -151,6 +151,13 @@ public class ShapAlgo2 {
             mj.zeroFraction = mj1.zeroFraction;
             mj.oneFraction = mj1.oneFraction;
         }
+        return m;
+    }
+
+    private List<PathElement> unwindTracked(List<PathElement> origM, int i) {
+        if (DEBUG) System.out.printf("%s(-) Pi=%d  -->  ", indent, i);
+        final List<PathElement> m = unwind(origM, i);
+        if (DEBUG) System.out.println(m);
         return m;
     }
 

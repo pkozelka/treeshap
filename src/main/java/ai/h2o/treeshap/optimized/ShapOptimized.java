@@ -170,6 +170,7 @@ public class ShapOptimized {
     // undo a previous extension of the decision path
 
     private void unwindPath(int uniquePathPtr, int uniqueDepth, int pathIndex) {
+        if (DEBUG) System.out.printf("%s(-) Pi=%d  -->  ", indent, pathIndex);
         final double oneFraction = pathArray.get(uniquePathPtr + pathIndex).oneFraction;
         final double zeroFraction = pathArray.get(uniquePathPtr + pathIndex).zeroFraction;
         double nextOnePortion = pathArray.get(uniquePathPtr + uniqueDepth).pweight;
@@ -193,6 +194,7 @@ public class ShapOptimized {
             el.zeroFraction = el1.zeroFraction;
             el.oneFraction = el1.oneFraction;
         }
+        if (DEBUG) System.out.println(track(uniquePathPtr, uniqueDepth - 1));
     }
     // determine what the total permutation weight would be if
     // we unwound a previous extension in the decision path

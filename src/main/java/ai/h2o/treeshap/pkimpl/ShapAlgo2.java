@@ -112,7 +112,7 @@ public class ShapAlgo2 {
             final double dd = (double) (sz - ii) / (double) sz;
             mi.weight = mi.weight * (pz * dd);
         }
-        if (DEBUG) System.out.println(m);
+        if (DEBUG) System.out.printf("(%d)%s%n", m.size(), m);
         return m;
     }
 
@@ -157,7 +157,7 @@ public class ShapAlgo2 {
     private List<PathElement> unwindTracked(List<PathElement> origM, int i) {
         if (DEBUG) System.out.printf("%s(-) Pi=%d  -->  ", indent, i);
         final List<PathElement> m = unwind(origM, i);
-        if (DEBUG) System.out.println(m);
+        if (DEBUG) System.out.printf("(%d)%s%n", m.size(), m);
         return m;
     }
 

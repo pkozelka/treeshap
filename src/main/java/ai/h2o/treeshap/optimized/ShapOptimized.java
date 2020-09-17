@@ -227,7 +227,7 @@ public class ShapOptimized {
             }
             sb.append(pathArray.get(uniquePathPtr + i).toStringComparable());
         }
-        return "[" + sb.toString() + "]";
+        return String.format("(%d)[%s]", uniqueDepth, sb);
     }
 
     /*

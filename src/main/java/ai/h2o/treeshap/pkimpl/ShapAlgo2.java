@@ -26,6 +26,9 @@ import java.util.List;
  * - [2] From local explanations to global understanding with explainable AI for trees, pages 65,66 - https://www.nature.com/articles/s42256-019-0138-9.epdf?shared_access_token=RCYPTVkiECUmc0CccSMgXtRgN0jAjWel9jnR3ZoTv0O81kV8DqPb2VXSseRmof0Pl8YSOZy4FHz5vMc3xsxcX6uT10EzEoWo7B-nZQAHJJvBYhQJTT1LnJmpsa48nlgUWrMkThFrEIvZstjQ7Xdc5g%3D%3D
  */
 public class ShapAlgo2 {
+    static boolean DEBUG = true;
+    private String indent = "";
+
     private final double[] phi;
     private final double[] x;
 
@@ -42,12 +45,14 @@ public class ShapAlgo2 {
  }
 
     private void recurse(PkNode j, List<PathElement> m, double pz, double po, Integer pi) {
+        if (DEBUG) System.out.printf("%srecurse(DC=%s, P0f=%f, P1f=%f, PFi=%d)%n", indent, j.dataCount, pz, po, pi);
         m = extend(m, pz, po, pi);
         if (j.isLeaf()) {
             for (int i = 1; i < m.size() - 1; i++) { // note that we are skipping first element
                 double w = sumWeight(unwind(m, i));
                 final PathElement mi = m.get(i);
                 final double contrib = w * (mi.oneFraction - mi.zeroFraction) * j.leafValue;
+                if (DEBUG) System.out.printf("%s* phi[%2d] += %f ... w = %f%n", indent, mi.featureIndex, contrib, w);
                 phi[mi.featureIndex] += contrib;
             }
         } else {
@@ -63,8 +68,11 @@ public class ShapAlgo2 {
                 io = mk.oneFraction;
                 m = unwind(m, k);
             }
+            final String indentBackup = indent;
+            indent += "    ";
             recurse(h, m, iz * h.dataCount/j.dataCount, io, j.splitFeatureIndex);
             recurse(c, m, iz * c.dataCount/j.dataCount, 0, j.splitFeatureIndex);
+            indent = indentBackup;
         }
     }
 

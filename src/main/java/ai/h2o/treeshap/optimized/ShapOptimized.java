@@ -7,6 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ShapOptimized {
+    static boolean DEBUG = true;
+    private String indent = "";
+
     private final double[] data;
     private final PkTree tree;
     private final double expectedValue;
@@ -59,6 +62,7 @@ public class ShapOptimized {
 
         // extend the unique path
         int uniquePathPtr = parentUniquePathPtr + uniqueDepth + 1;
+        if (DEBUG) System.out.printf("%srecurse(DC=%s, P0f=%f, P1f=%f, PFi=%d)%n", indent, node.dataCount, parentZeroFraction, parentOneFraction, parentFeatureIndex < 0 ? null : parentFeatureIndex);
         stdcopy(parentUniquePathPtr, parentUniquePathPtr + uniqueDepth, uniquePathPtr); //TODO this +1 in second param looks to be AT LEAST useless, MAYBE even harmful. Explore when tests are working!
         extendPath(uniquePathPtr, uniqueDepth, parentZeroFraction, parentOneFraction, parentFeatureIndex);
 
@@ -68,6 +72,7 @@ public class ShapOptimized {
                 final double w = unwoundPathSum(uniquePathPtr, uniqueDepth, i);
                 final PathElement el = pathArray.get(uniquePathPtr + i);
                 final double contrib = w * (el.oneFraction - el.zeroFraction) * node.leafValue * conditionFraction;
+                if (DEBUG) System.out.printf("%s* phi[%2d] += %f ... w = %f%n", indent, el.featureIndex, contrib, w);
                 phi[el.featureIndex] += contrib;
             }
         } else {
@@ -92,6 +97,8 @@ public class ShapOptimized {
                 uniqueDepth -= 1;
             }
 
+            final String indentBackup = indent;
+            indent += "    ";
             treeShap(hotNode, uniqueDepth + 1, uniquePathPtr,
                 hotZeroFraction * incomingZeroFraction, incomingOneFraction,
                 node.splitFeatureIndex, conditionFraction);
@@ -99,7 +106,7 @@ public class ShapOptimized {
             treeShap(coldNode, uniqueDepth + 1, uniquePathPtr,
                 coldZeroFraction * incomingZeroFraction, 0,
                 node.splitFeatureIndex, conditionFraction);
-
+            indent = indentBackup;
         }
     }
 

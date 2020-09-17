@@ -12,7 +12,7 @@ public class ShapAlgo2Test {
         final double[] data = TestDataConstants.MMEXAMPLE_ROW_DOUBLE;
         final double[] predictContribs = ShapAlgo2.compute(data, tree);
         for (int i = 0; i < data.length; i++) {
-            System.out.printf("data[%2d] = %12.6f, contributes: %14.10f%n", i, data[i], predictContribs[i]);
+            System.out.printf("data[%2d] = %24A, contrib: %24A%n", i, data[i], predictContribs[i]);
         }
     }
 }

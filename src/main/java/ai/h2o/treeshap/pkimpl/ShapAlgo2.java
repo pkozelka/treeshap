@@ -1,5 +1,7 @@
 package ai.h2o.treeshap.pkimpl;
 
+import ai.h2o.treeshap.tree.PkNode;
+import ai.h2o.treeshap.tree.PkTree;
 import java.util.ArrayList;
 import java.util.List;
 

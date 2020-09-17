@@ -1,4 +1,4 @@
-package ai.h2o.treeshap.pkimpl;
+package ai.h2o.treeshap.tree;
 
 public class PkNode {
     /**

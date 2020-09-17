@@ -1,7 +1,7 @@
 package ai.h2o.treeshap.data;
 
-import ai.h2o.treeshap.pkimpl.PkNode;
-import ai.h2o.treeshap.pkimpl.PkTree;
+import ai.h2o.treeshap.tree.PkNode;
+import ai.h2o.treeshap.tree.PkTree;
 import java.io.PrintWriter;
 import org.junit.Test;
 

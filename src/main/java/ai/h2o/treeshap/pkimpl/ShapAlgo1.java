@@ -1,5 +1,8 @@
 package ai.h2o.treeshap.pkimpl;
 
+import ai.h2o.treeshap.tree.PkNode;
+import ai.h2o.treeshap.tree.PkTree;
+
 /**
  * See https://arxiv.org/pdf/1802.03888.pdf - Chapter 3.1, Algorithm 1.
  *

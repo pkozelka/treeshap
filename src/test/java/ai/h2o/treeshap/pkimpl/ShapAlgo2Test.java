@@ -1,6 +1,7 @@
 package ai.h2o.treeshap.pkimpl;
 
 import ai.h2o.treeshap.data.TestDataConstants;
+import ai.h2o.treeshap.tree.PkTree;
 import org.junit.Test;
 
 public class ShapAlgo2Test {

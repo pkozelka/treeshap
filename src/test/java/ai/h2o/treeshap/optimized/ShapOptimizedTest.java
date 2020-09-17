@@ -12,7 +12,7 @@ public class ShapOptimizedTest {
         final ShapOptimized so = new ShapOptimized(data, tree, 0);
         final double[] predictContribs = so.calculateContributions();
         for (int i = 0; i < data.length; i++) {
-            System.out.printf("data[%2d] = %12.6f, contributes: %14.10f%n", i, data[i], predictContribs[i]);
+            System.out.printf("data[%2d] = %24A, contributes: %24A%n", i, data[i], predictContribs[i]);
         }
     }
 }

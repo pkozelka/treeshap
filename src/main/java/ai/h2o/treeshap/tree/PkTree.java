@@ -21,13 +21,13 @@ public class PkTree {
 
     private static void printNode(final PrintWriter pw, final String indent, final PkNode node) {
         if (node.isSplit()) {
-            pw.printf("%sif (data[%d] <= %f) {  // dc = %f%n", indent, node.splitFeatureIndex, node.splitValue, node.dataCount);
+            pw.printf("%sif (data[%d] <= %A) {  // dc = %f%n", indent, node.splitFeatureIndex, node.splitValue, node.dataCount);
             printNode(pw, indent + INDENT_STEP, node.yes);
             pw.printf("%s} else {%n", indent);
             printNode(pw, indent + INDENT_STEP, node.no);
             pw.printf("%s}%n", indent);
         } else {
-            pw.printf("%sreturn %f;  // dc = %f%n", indent, node.leafValue, node.dataCount);
+            pw.printf("%sreturn %A;  // dc = %f%n", indent, node.leafValue, node.dataCount);
         }
     }
 
@@ -45,13 +45,13 @@ public class PkTree {
 
     private static void printNodeConstructor(final PrintWriter pw, final String indent, final PkNode node) {
         if (node.isSplit()) {
-            pw.printf("%n%sPkNode.split(/*dc=*/%f, /*col=*/%d, %f,", indent, node.dataCount, node.splitFeatureIndex, node.splitValue);
+            pw.printf("%n%sPkNode.split(/*dc=*/%A, /*col=*/%d, %A,", indent, node.dataCount, node.splitFeatureIndex, node.splitValue);
             printNodeConstructor(pw, indent + INDENT_STEP, node.yes);
             pw.print(",");
             printNodeConstructor(pw, indent + INDENT_STEP, node.no);
             pw.print(")");
         } else {
-            pw.printf("%n%sPkNode.leaf(/*dc=*/%f, %f)", indent, node.dataCount, node.leafValue);
+            pw.printf("%n%sPkNode.leaf(/*dc=*/%A, %A)", indent, node.dataCount, node.leafValue);
         }
     }
 

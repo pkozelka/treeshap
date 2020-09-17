@@ -3,7 +3,7 @@ package ai.h2o.treeshap.pkimpl;
 import ai.h2o.treeshap.data.TestDataConstants;
 import org.junit.Test;
 
-public class PkTreeTest {
+public class ShapAlgo2Test {
 
     @Test
     public void testShapAlgo2() {

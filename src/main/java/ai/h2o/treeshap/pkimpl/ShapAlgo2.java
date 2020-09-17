@@ -3,6 +3,7 @@ package ai.h2o.treeshap.pkimpl;
 import ai.h2o.treeshap.tree.PkNode;
 import ai.h2o.treeshap.tree.PkTree;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,7 +38,8 @@ public class ShapAlgo2 {
     private ShapAlgo2(double[] x) {
         this.x = x;
         this.phi = new double[x.length];
-    }
+        Arrays.fill(phi, -0.0);
+ }
 
     private void recurse(PkNode j, List<PathElement> m, double pz, double po, Integer pi) {
         m = extend(m, pz, po, pi);

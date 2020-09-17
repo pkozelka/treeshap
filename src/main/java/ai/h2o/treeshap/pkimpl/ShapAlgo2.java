@@ -87,7 +87,8 @@ public class ShapAlgo2 {
         return null;
     }
 
-    private static List<PathElement> extend(final List<PathElement> origM, final double pz, final double po, final Integer pi) {
+    private List<PathElement> extend(final List<PathElement> origM, final double pz, final double po, final Integer pi) {
+        if (DEBUG) System.out.printf("%s(+) 0f=%f, 1f=%f, Fi=%d  -->  ", indent, pz, po, pi);
         // copy original
         final List<PathElement> m = copy(origM);
         // add new item
@@ -111,6 +112,7 @@ public class ShapAlgo2 {
             final double dd =(double) (sz - ii) / (double) sz;
             mi.weight = mi.weight * (pz * dd);
         }
+        if (DEBUG) System.out.println(m);
         return m;
     }
 

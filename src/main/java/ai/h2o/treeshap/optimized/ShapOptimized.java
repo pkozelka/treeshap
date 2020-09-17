@@ -152,6 +152,7 @@ public class ShapOptimized {
 
     // extend our decision path with a fraction of one and zero extensions
     private void extendPath(int uniquePathPtr, int uniqueDepth, double zeroFraction, double oneFraction, int featureIndex) {
+        if (DEBUG) System.out.printf("%s(+) 0f=%f, 1f=%f, Fi=%d  -->  ", indent, zeroFraction, oneFraction, featureIndex < 0 ? null : featureIndex);
         final PathElement el = pathArray.get(uniquePathPtr + uniqueDepth);
         el.featureIndex = featureIndex;
         el.zeroFraction = zeroFraction;
@@ -163,9 +164,11 @@ public class ShapOptimized {
             upi1.pweight += oneFraction * upi.pweight * (i + 1) / (double) (uniqueDepth + 1);
             upi.pweight = zeroFraction * upi.pweight * (uniqueDepth - i) / (double) (uniqueDepth + 1);
         }
+        if (DEBUG) System.out.println(track(uniquePathPtr, uniqueDepth + 1));
     }
 
     // undo a previous extension of the decision path
+
     private void unwindPath(int uniquePathPtr, int uniqueDepth, int pathIndex) {
         final double oneFraction = pathArray.get(uniquePathPtr + pathIndex).oneFraction;
         final double zeroFraction = pathArray.get(uniquePathPtr + pathIndex).zeroFraction;
@@ -191,9 +194,9 @@ public class ShapOptimized {
             el.oneFraction = el1.oneFraction;
         }
     }
-
     // determine what the total permutation weight would be if
     // we unwound a previous extension in the decision path
+
     private double unwoundPathSum(int uniquePathPtr, int uniqueDepth, int pathIndex) {
         final double oneFraction = pathArray.get(uniquePathPtr + pathIndex).oneFraction;
         final double zeroFraction = pathArray.get(uniquePathPtr + pathIndex).zeroFraction;
@@ -214,6 +217,17 @@ public class ShapOptimized {
         return total;
     }
 
+    private String track(final int uniquePathPtr, final int uniqueDepth) {
+        final StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < uniqueDepth; i++) {
+            if (sb.length() > 0) {
+                sb.append(", ");
+            }
+            sb.append(pathArray.get(uniquePathPtr + i).toStringComparable());
+        }
+        return "[" + sb.toString() + "]";
+    }
+
     /*
      data we keep about our decision path
      note that pweight is included for convenience and is not tied with the other
@@ -221,10 +235,18 @@ public class ShapOptimized {
      paths with i-1 ones in them
     */
     static class PathElement {
+
         public int featureIndex = -777;
         public double zeroFraction = -777.777;
         public double oneFraction = -777.777;
         public double pweight = -777.777;
+
+        public String toStringComparable() {
+            return "PE{f=" + (featureIndex < 0 ? null : featureIndex) +
+                ", zf=" + zeroFraction +
+                ", of=" + oneFraction +
+                ", pw=" + pweight + '}';
+        }
 
         @Override
         public String toString() {
